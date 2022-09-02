@@ -13,7 +13,7 @@ try {
         $mail->Host = 'sg2plzcpnl456431.prod.sin2.secureserver.net';
         $mail->SMTPAuth = true;
         $mail->Username = 'contactform@brdigitech.com';
-        $mail->Password = 'qnlOqJuohtAl';
+        $mail->Password = '';
         $mail->SMTPSecure = 'tls';
         $mail->Port = 465;
 
