@@ -6,7 +6,7 @@ require 'vendor/autoload.php';
 
 $mail = new PHPMailer(true); 
 try {
-    if($_POST["email"]) {
+    if($_POST["emailAddress"]) {
         //Server settings
         // $mail->SMTPDebug = 2; //Uncomment to view debug log
         $mail->isSMTP();
@@ -14,7 +14,7 @@ try {
         $mail->SMTPAuth = true;
         $mail->Username = 'contactform@brdigitech.com';
         $mail->Password = '';
-        $mail->SMTPSecure = 'tls';
+        $mail->SMTPSecure = 'ssl';
         $mail->Port = 465;
 
         $mail->setFrom('contactform@brdigitech.com', 'Contact Form');
@@ -25,15 +25,19 @@ try {
         //Content
         $mail->isHTML(true); 
         $mail->Subject = 'Contact Page Form from BRDigitech website';
-        $mail->Body    = 'Mail body content goes here';
+        $mail->Body    = 'Name: '.$_POST["name"].'<br/> Email: '.$_POST["emailAddress"].'<br /> Phone: '.$_POST["phone"]. '<br/> Subject: '.$_POST["subject"].'<br/> <br /> Message: '.$_POST["msg"];
 
         $mail->send();
-        echo 'Message has been sent';
-    } else {
+        $response["success"] = true;
+        $response["msg"] = 'Message has been sent';
 
-    }
-    
+        echo json_encode($response);
+
+    } 
+
 } catch (Exception $e) {
-    echo 'Message could not be sent.';
-    echo 'Mailer Error: ' . $mail->ErrorInfo;
+    $response["success"] = false;
+    $response["msg"] = 'Message could not be sent';
+    $response["error"] = $mail->ErrorInfo;
+    echo json_encode($response);
 }
